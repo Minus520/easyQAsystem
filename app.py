@@ -60,11 +60,12 @@ def register():
         user_email = form.user_email.data
         user_nickname = form.user_nickname.data
         user_birth = form.user_birth.data
+        register_time = datetime.now()
         user = User.query.filter(User.userName == user_name).first()
         if user:
             return '账号已注册'
         else:
-            user = User(user_name, user_password, user_email, user_nickname, user_birth)
+            user = User(user_name, user_password, user_email, user_nickname, register_time, user_birth)
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('login'))
