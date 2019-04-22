@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}{% endblock %}
+    <link type="text/css" rel="stylesheet" href={{ url_for('static',filename='css/base.css') }}/>
+</head>
+<body>
+<hr>
+<img src={{ url_for('static',filename='images/favicon.ico') }}>
+<hr>
+<a href="{{ url_for('post') }}">发布</a>
+{% if user %}
+    <a href="#">{{ user.userName }}</a>
+    <a href="{{ url_for('logout') }}">注销</a><br>
+{% else %}
+    <a href="{{ url_for('login') }}">登录</a>
+    <a href="{{ url_for('register') }}">注册</a>
+{% endif %}
+<hr>
+
+{% block page_content %}{% endblock %}
+</body>
+</html>

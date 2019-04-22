@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+{% block title %}问题详情{% endblock %}
+
+{% block page_content %}
+    <div class="panel panel-default" xmlns="http://www.w3.org/1999/html">
+        <div class="panel-body text-center">
+            <div class="pull-center">
+                <p>
+                <h1 class="panel-title"><strong>{{ question.questionTopic }}</strong></h1></p>
+            </div>
+            <div class="pull-center">
+                <div class="row">
+                    <div class="col-md-3"><span class="glyphicon glyphicon-user"></span> {{ question.user.userNickname }}
+                    </div>
+                    <div class="col-md-3"><span class="glyphicon glyphicon-time"
+                                                aria-hidden="true"></span> {{ question.questionTime }}</div>
+                    <div class="col-md-3"><span class="glyphicon glyphicon-eye-open"
+                                                aria-hidden="true"></span> {{ question.questionView }}</div>
+                    <div class="col-md-3">
+                        <a href="#" style="color:red" title="喜欢"><span class="glyphicon glyphicon-heart"
+                                                                       aria-hidden="true"></span> 999+</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">{{ question.questionContent }}</div>
+    </div>
+    <hr>
+    <hr>
+    {#{{ wtf.quick_form(form,action="/answer") }}#}
+    <form name="answerForm" method="post" action="{{ url_for('answer') }}"
+          onsubmit=" if(!answerForm.answer_content.value) {alert('not null');return false}">
+        <div class="form-group">
+            <label for="answer_content">添加回答</label>
+            <textarea class="form-control" rows="3" name="answer_content" id="answer_content"></textarea>
+        </div>
+        <div class="form-group">
+            <input type="hidden" class="form-control" name="question_id" id="question_id" value="{{ question.questionId }}">
+        </div>
+        <button type="submit" class="btn btn-default">发表回答</button>
+    </form>
+    <hr>
+    <h3>回答次数：{{ answers|length }}次</h3>
+    <table class="table table-striped">
+        {% for answer in answers %}
+            <tr>
+                <td>
+                    <div class="pull-left">{{ answer.answerContent }}</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="pull-right">
+                        <span class="glyphicon glyphicon-user"></span> {{ answer.user.userNickname }} |
+                        <span class="glyphicon glyphicon-time"></span> {{ answer.answerTime }}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% if pagination %}
+        <nav aria-label="Page navigation">
+            {{ macros.pagination_widget(pagination, '.index') }}
+        </nav>
+    {% endif %}
+{% endblock %}

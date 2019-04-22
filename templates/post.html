@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}发布问题{% endblock %}
+
+{% block page_content %}
+    {{ wtf.quick_form(form) }}
+    {#<form action="" method="post">
+    <label>发布问题</label><br>
+    <input type="text" name="postTopic"><br><br>
+    <textarea type="text" rows="10" cols="45" name="postContent"></textarea>
+    <input type="submit" value="发布">
+</form>#}
+{% endblock %}

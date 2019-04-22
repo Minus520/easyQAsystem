@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}登录{% endblock %}
+
+{% block page_content %}
+    {{ wtf.quick_form(form) }}
+{#<form action="{{ url_for('login') }}" method="post">
+    <input type="text" name="userName"><br>
+    <input type="password" name="userPassword">
+    <input type="submit">
+</form>#}
+{% endblock %}
