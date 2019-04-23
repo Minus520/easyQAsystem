@@ -27,6 +27,6 @@ python manage.py db migrate
 # 5 映射数据库
 python manage.py db upgrade
 
-#6 启动项目：
+# 6 启动项目：
 python manage.py runserver
 
