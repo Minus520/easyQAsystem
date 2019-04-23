@@ -8,6 +8,9 @@ git clone https://github.com/commitsession/easyQAsystem.git
 
 # 安装依赖
 pip install -r requiremets.text
+or
+python setup.py build
+python setup.py install
 
 # 数据库初始化
 python manage.py db init
