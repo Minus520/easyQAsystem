@@ -21,7 +21,7 @@ python setup.py install
 ## 3 数据库初始化
 python manage.py db init
 
-##4 数据库迁移
+## 4 数据库迁移
 python manage.py db migrate
 
 ## 5 映射数据库
