@@ -1,3 +1,4 @@
+# coding: utf-8
 from flask import Flask, render_template, request, redirect, url_for, session
 import config
 from db import db
@@ -29,7 +30,7 @@ def index():
         'pagination': pagination,
         'questions': questions  # Question.query.order_by(Question.questionTime.desc()).slice(start, end).all()
     }
-    return render_template('index.html', **context, )
+    return render_template('index.html', **context)
 
 
 @app.route('/login', methods=['GET', 'POST'])
