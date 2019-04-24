@@ -1,17 +1,29 @@
 # coding: utf-8
 from db import db
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(db.Model):
     userId = db.Column('userId', db.Integer, primary_key=True, autoincrement=True)
     userName = db.Column('userName', db.String(16), nullable=False)
-    userPassword = db.Column('userPassword', db.String(12), nullable=False)
+    userPassword = db.Column('userPassword', db.String(128), nullable=False)
     userEmail = db.Column('userEmail', db.String(30), nullable=True)
     userNickname = db.Column('userNickname', db.String(20), nullable=True)
     registerTime = db.Column('registerTime', db.DateTime, default=datetime.now())
     userBirth = db.Column('userBirth', db.String(20))
     __tablename__ = 't_user'
+
+    @property
+    def password(self):
+        raise AttributeError('password is not a readable attribute')
+
+    @password.setter
+    def password(self, user_password):
+        self.userPassword = generate_password_hash(user_password)
+
+    def verify_password(self, user_password):
+        return check_password_hash(self.userPassword, user_password)
 
     def __repr__(self):
         return '<User %r>' % self.userId
@@ -19,7 +31,7 @@ class User(db.Model):
     def __init__(self, user_name=None, user_password=None, user_email=None, user_nickname=None, register_time=None,
                  user_birth=None):
         self.userName = user_name
-        self.userPassword = user_password
+        self.password = user_password
         self.userEmail = user_email
         self.userNickname = user_nickname
         self.registerTime = register_time

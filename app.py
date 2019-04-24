@@ -41,8 +41,8 @@ def login():
     else:
         user_name = form.user_name.data
         user_password = form.user_password.data
-        user = User.query.filter(User.userName == user_name, User.userPassword == user_password).first()
-        if user:
+        user = User.query.filter(User.userName == user_name).first()
+        if user and user.verify_password(user_password):
             session['user_name'] = user.userName
             session.permanent = True
             return redirect(url_for('index'))
