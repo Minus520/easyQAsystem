@@ -135,6 +135,26 @@ def answer():
     return redirect(url_for('detail', question_id=current_question.questionId))
 
 
+@app.route('/profile')
+@login_required
+def profile():
+    user = User.query.filter(User.userName == session['user_name']).first()
+    # questions = user.questions
+    # db.session.add(questions)
+
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    pagination = Question.query.filter(Question.userId == user.userId).order_by(
+        Question.questionTime.desc()).paginate(page, per_page=5, error_out=False)
+    questions = pagination.items
+
+    context = {
+        # 'pagination': pagination,
+        'questions': questions,  # Question.query.order_by(Question.questionTime.desc()).slice(start, end).all()
+        'answers': Answer.query.filter_by(userId=user.userId).order_by(Answer.answerTime.desc()).all()
+    }
+    return render_template('profile.html', **context)
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404

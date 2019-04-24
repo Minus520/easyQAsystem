@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+{% block head %}
+    {{ super() }}
+    <link type="text/css" rel="stylesheet" href={{ url_for('static',filename='css/index.css') }}/>
+{% endblock %}
+{% block title %}{{ user.userNickname }}的个人中心{% endblock %}
+
+{% block page_content %}
+    <div class="list-group pull-center">
+        <a href="#" class="list-group-item inactive">
+            个人信息：
+        </a>
+        <a href="#" class="list-group-item">
+            <div class="row">
+                <div class="col-md-2"><p class="text-info">登录账号：{{ user.userName }}</p></div>
+                <!--  <div class="col-md-2"><p class="text-info">{{ user.userPassword }}</p></div> -->
+                <div class="col-md-3"><p class="text-info">注册时间：{{ user.registerTime }}</p></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"><p class="text-info">昵称：{{ user.userNickname }}</p></div>
+                <div class="col-md-3"><p class="text-info">邮件：{{ user.userEmail }}</p></div>
+                <div class="col-md-4"><p class="text-info">出生日期：{{ user.userBirth }}</p></div>
+            </div>
+        </a>
+        <a href="#" class="list-group-item">
+            <div class="row">
+                <div class="col-md-3"><p class="text-info">发布问题数: <span class="badge">{{ questions|length }}</span></p>
+                </div>
+                <div class="col-md-3"><p class="text-info">回答问题数: <span class="badge">{{ answers|length }}</span></p>
+                </div>
+                <div class="col-md-3"><p class="text-info">问题被浏览数: <span class="badge">99+</span></p>
+                </div>
+                <div class="col-md-3"><p class="text-info">问题被点赞数: <span class="badge">99+</span></p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+   {# {% for question in questions %}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="pull-left">
+                    <a href="{{ url_for('detail',question_id=question.questionId) }}"><span
+                            class="glyphicon glyphicon-folder-open"></span> {{ question.questionTopic }}</a>
+                </div>
+                <div class="pull-right" id="content_info">
+                    <span class="glyphicon glyphicon-user"></span> {{ question.user.userNickname }} |
+                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{ question.questionTime }} |
+                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{ question.questionView }} |
+                    <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> 0
+                </div>
+            </div>
+            <div class="panel-footer">{{ question.questionContent }}</div>
+        </div>
+    {% endfor %}
+    {% if pagination %}
+        <nav aria-label="Page navigation">
+            {{ macros.pagination_widget(pagination, '.profile') }}
+        </nav>
+    {% endif %}#}
+{% endblock %}
