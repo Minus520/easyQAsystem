@@ -9,11 +9,14 @@ from forms import LoginForm, RegisterForm, QuestionForm
 from flask_paginate import get_page_parameter
 from datetime import datetime
 from utils import login_log
+from flask_mail import Mail, Message
+from threading import Thread
 
 app = Flask(__name__)
 app.config.from_object(config)
 db.init_app(app)
 bootstrap = Bootstrap(app)
+mail = Mail(app)
 
 
 @app.route('/')
@@ -72,7 +75,23 @@ def register():
             user = User(user_name, user_password, user_email, user_nickname, register_time, user_birth)
             db.session.add(user)
             db.session.commit()
+            send_email(user_email, 'easyQAsystem user register confirm', 'notifymail', user=user)
             return redirect(url_for('login'))
+
+
+def send_async_email(app, msg):
+    with app.app_context():
+        mail.send(msg)
+
+
+def send_email(to, subject, template, **kwargs):
+    msg = Message(subject, sender='yaoxing@fsc.cntaiping.com', recipients=[to])
+    msg.body = render_template(template + '.txt', **kwargs)
+    msg.html = render_template(template + '.html', **kwargs)
+    # mail.send(msg)
+    thr = Thread(target=send_async_email, args=[app, msg])
+    thr.start()
+    return thr
 
 
 @app.route('/logout')
