@@ -18,3 +18,5 @@ flask_wtf==0.14.2
 WTForms=2.2.1
 flask_paginate==0.5.2
 pymysql==0.9.3
+Flask-Mail==0.9.1
+blinker ==1.4

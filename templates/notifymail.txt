@@ -1,8 +1,8 @@
-Welcome to easyQAsystem!
-Dear {{ user.userName }},
-Welcome to easyQAsystem!
-To confirm your account please click on the following link:
-{{ url_for('index') }}
-Sincerely,
-The easyQAsystem Team
-Note: replies to this email address are not monitored.
+Welcome to easyQAsystem!\r\n
+Dear {{ user.userName }},\r\n
+Welcome to easyQAsystem!\r\n
+To confirm your account please click on the following link:\r\n
+{{ url_for('index') }}\r\n
+Sincerely,\r\n
+The easyQAsystem Team\r\n
+Note: replies to this email address are not monitored.\r\n
