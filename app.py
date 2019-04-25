@@ -1,5 +1,5 @@
 # coding: utf-8
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, g
 import config
 from db import db
 from models import User, Question, Answer
@@ -8,6 +8,7 @@ from flask_bootstrap import Bootstrap
 from forms import LoginForm, RegisterForm, QuestionForm
 from flask_paginate import get_page_parameter
 from datetime import datetime
+from utils import login_log
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -45,6 +46,8 @@ def login():
         if user and user.verify_password(user_password):
             session['user_name'] = user.userName
             session.permanent = True
+            g.user_name = user_name
+            login_log()
             return redirect(url_for('index'))
         else:
             return '账号或者密码错误'
@@ -78,6 +81,7 @@ def logout():
     return redirect(url_for('index'))
 
 
+# 钩子函数
 @app.context_processor
 def my_context_processor():
     user_name = session.get('user_name')
