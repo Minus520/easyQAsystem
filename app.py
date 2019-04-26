@@ -52,6 +52,8 @@ def login():
             # session.permanent = True
 
             g.user_name = user_name
+            g.user_ip = request.remote_addr
+            g.user_login_time = datetime.now()
             login_log()
             return redirect(url_for('index'))
         else:
