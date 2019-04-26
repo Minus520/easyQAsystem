@@ -1,5 +1,16 @@
 # easyQAsystem（![](https://img.shields.io/badge/Python-3.6.7-blue.svg)）
 my first flask project
+功能：用户注册后邮箱发送确认信息，密码加密存储等。
+
+## 注：
+
+python2.7版本也可以使用，但需在服务器的python安装目录/usr/lib/python2.7/site-packages/
+下增加一个文件：sitecustomize.py
+
+内容如下：
+import sys
+sys.setdefaultencoding('utf-8')
+否则会报：UnicodeDecodeError: 'ascii' codec can't decode byte 0xe9 in position 0: ordinal not in range(128)错误。
 
 #** How to use **
 
@@ -14,7 +25,8 @@ pip install -r requiremets.text
 ** OR manual **
 ###依赖包下载网址
 https://pypi.org/project
-
+(我已经下载好放在/easyQAsystem/requirementlib目录下了)
+linux系统安装：
 python setup.py build
 python setup.py install
 

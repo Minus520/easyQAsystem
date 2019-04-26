@@ -53,7 +53,7 @@ def login():
             login_log()
             return redirect(url_for('index'))
         else:
-            flash('登录失败，账号或者密码不正确！！！')
+            flash(u'登录失败，账号或者密码不正确！！！')
             return redirect(url_for('login'))
 
 
@@ -71,7 +71,7 @@ def register():
         register_time = datetime.now()
         user = User.query.filter(User.userName == user_name).first()
         if user:
-            flash('账号已被注册！！！')
+            flash(u'账号已被注册！！！')
             return redirect(url_for('register'))
         else:
             user = User(user_name, user_password, user_email, user_nickname, register_time, user_birth)
@@ -79,7 +79,7 @@ def register():
             db.session.commit()
             token = user.generate_confirmation_token(secret_key=app.config['SECRET_KEY'])
             send_email(user_email, 'easyQAsystem User Register Confirm', 'notifymail', user=user, token=token)
-            flash('账号确认邮件已发送到您的注册邮箱，请及时确认，否则无法发布新问题！！！')
+            flash(u'账号确认邮件已发送到您的注册邮箱，请及时确认，否则无法发布新问题！！！')
             return redirect(url_for('login'))
 
 
@@ -106,10 +106,10 @@ def confirm(token):
     if user and user.userConfirmed:
         return redirect(url_for('index'))
     if user.confirm(token, secret_key=app.config['SECRET_KEY']):
-        flash('你的账号已经确认成功！！！')
+        flash(u'你的账号已经确认成功！！！')
         return redirect(url_for('index'))
     else:
-        flash('账号确认链接已失效')
+        flash(u'账号确认链接已失效')
         return redirect(url_for('register'))
 
 
@@ -204,7 +204,7 @@ def page_not_found(e):
 
 
 @app.errorhandler(500)
-def page_not_found(e):
+def page_not_found():
     return render_template('500.html'), 500
 
 
