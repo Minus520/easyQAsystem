@@ -7,6 +7,15 @@
 {% block title %}{{ user.userNickname }}的个人中心{% endblock %}
 
 {% block page_content %}
+    {% if user.userConfirmed==0 %}
+        <div class="alert alert-danger" role="alert">
+            <a href="#" class="alert-link">你还有没有进行注册确认，请登录注册时提交的邮箱进行确认，否则无法发布新的问题谢谢！！！</a>
+        </div>
+    {% else %}
+        <div class="alert alert-danger" role="alert">
+            你已经进行注册确认，可以<a href="{{ url_for('question') }}" class="alert-link">发布问题</a>了，谢谢！！！
+        </div>
+    {% endif %}
     <div class="list-group pull-center">
         <a href="#" class="list-group-item inactive">
             个人信息：
@@ -37,7 +46,7 @@
         </a>
     </div>
 
-   {# {% for question in questions %}
+    {# {% for question in questions %}
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="pull-left">

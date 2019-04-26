@@ -2,6 +2,7 @@
 from db import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 
 class User(db.Model):
@@ -12,7 +13,25 @@ class User(db.Model):
     userNickname = db.Column('userNickname', db.String(20), nullable=True)
     registerTime = db.Column('registerTime', db.DateTime, default=datetime.now())
     userBirth = db.Column('userBirth', db.String(20))
+    userConfirmed = db.Column('userConfirmed', db.Boolean, default=False)
     __tablename__ = 't_user'
+
+    def generate_confirmation_token(self, secret_key, expiration=3600):
+        s = Serializer(secret_key, expiration)
+        return s.dumps({'confirm': self.userId})
+
+    def confirm(self, token, secret_key):
+        s = Serializer(secret_key, 3600)
+        try:
+            data = s.loads(token)
+        except:
+            return False
+        if data.get('confirm') != self.userId:
+            return False
+        self.userConfirmed = True
+        db.session.add(self)
+        db.session.commit()
+        return True
 
     @property
     def password(self):

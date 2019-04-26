@@ -1,5 +1,5 @@
 # coding: utf-8
-from flask import Flask, render_template, request, redirect, url_for, session, g
+from flask import Flask, render_template, request, redirect, url_for, session, g, flash
 import config
 from db import db
 from models import User, Question, Answer
@@ -53,7 +53,8 @@ def login():
             login_log()
             return redirect(url_for('index'))
         else:
-            return '账号或者密码错误'
+            flash('登录失败，账号或者密码不正确！！！')
+            return redirect(url_for('login'))
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -70,12 +71,15 @@ def register():
         register_time = datetime.now()
         user = User.query.filter(User.userName == user_name).first()
         if user:
-            return '账号已注册'
+            flash('账号已被注册！！！')
+            return redirect(url_for('register'))
         else:
             user = User(user_name, user_password, user_email, user_nickname, register_time, user_birth)
             db.session.add(user)
             db.session.commit()
-            send_email(user_email, 'easyQAsystem user register confirm', 'notifymail', user=user)
+            token = user.generate_confirmation_token(secret_key=app.config['SECRET_KEY'])
+            send_email(user_email, 'easyQAsystem User Register Confirm', 'notifymail', user=user, token=token)
+            flash('账号确认邮件已发送到您的注册邮箱，请及时确认，否则无法发布新问题！！！')
             return redirect(url_for('login'))
 
 
@@ -94,6 +98,21 @@ def send_email(to, subject, template, **kwargs):
     return thr
 
 
+@app.route('/confirm/<token>')
+@login_required
+def confirm(token):
+    user_name = session.get('user_name')
+    user = User.query.filter(User.userName == user_name).first()
+    if user and user.userConfirmed:
+        return redirect(url_for('index'))
+    if user.confirm(token, secret_key=app.config['SECRET_KEY']):
+        flash('你的账号已经确认成功！！！')
+        return redirect(url_for('index'))
+    else:
+        flash('账号确认链接已失效')
+        return redirect(url_for('register'))
+
+
 @app.route('/logout')
 def logout():
     session.pop('user_name')
@@ -107,6 +126,7 @@ def my_context_processor():
     if user_name:
         user = User.query.filter(User.userName == user_name).first()
         if user:
+            g.current_user = user
             return {'user': user}
     else:
         return {}
