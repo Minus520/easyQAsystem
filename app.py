@@ -53,7 +53,12 @@ def login():
 
             g.user_name = user_name
             g.user_ip = request.remote_addr
+            # nginx 配置：proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+            # g.user_ip = request.headers['X-Forwarded-For']
             g.user_login_time = datetime.now()
+            app.logger.info(
+                "current login user is " + g.user_name + " & login at " + str(
+                    g.user_login_time) + " & user ip:" + g.user_ip)
             login_log()
             return redirect(url_for('index'))
         else:
