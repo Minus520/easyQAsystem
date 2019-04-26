@@ -7,22 +7,27 @@
 {% block title %}问答系统{% endblock %}
 
 {% block page_content %}
-    {% for question in questions %}
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="pull-left">
-                    <a href="{{ url_for('detail',question_id=question.questionId) }}"><span class="glyphicon glyphicon-folder-open"></span> {{ question.questionTopic }}</a>
+    {% if questions %}
+        {% for question in questions %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="pull-left">
+                        <a href="{{ url_for('detail',question_id=question.questionId) }}"><span
+                                class="glyphicon glyphicon-folder-open"></span> {{ question.questionTopic }}</a>
+                    </div>
+                    <div class="pull-right" id="content_info">
+                        <span class="glyphicon glyphicon-user"></span> {{ question.user.userNickname }} |
+                        <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{ question.questionTime }} |
+                        <span class="glyphicon glyphicon-eye-open"
+                              aria-hidden="true"></span> {{ question.questionView }} |
+                        <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> 0
+                    </div>
                 </div>
-                <div class="pull-right" id="content_info">
-                    <span class="glyphicon glyphicon-user"></span> {{ question.user.userNickname }} |
-                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{ question.questionTime }} |
-                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{ question.questionView }} |
-                    <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> 0
-                </div>
+                <div class="panel-footer">{{ question.questionContent }}</div>
             </div>
-            <div class="panel-footer">{{ question.questionContent }}</div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    {% endif %}
+
     {% if pagination %}
         <nav aria-label="Page navigation">
             {{ macros.pagination_widget(pagination, '.index') }}

@@ -7,7 +7,7 @@ from decorators import login_required
 from flask_bootstrap import Bootstrap
 from forms import LoginForm, RegisterForm, QuestionForm
 from flask_paginate import get_page_parameter
-from datetime import datetime
+from datetime import datetime, timedelta
 from utils import login_log
 from flask_mail import Mail, Message
 from threading import Thread
@@ -17,6 +17,7 @@ app.config.from_object(config)
 db.init_app(app)
 bootstrap = Bootstrap(app)
 mail = Mail(app)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=45)  # 配置45min有效
 
 
 @app.route('/')
@@ -48,7 +49,8 @@ def login():
         user = User.query.filter(User.userName == user_name).first()
         if user and user.verify_password(user_password):
             session['user_name'] = user.userName
-            session.permanent = True
+            # session.permanent = True
+
             g.user_name = user_name
             login_log()
             return redirect(url_for('index'))
@@ -116,6 +118,7 @@ def confirm(token):
 @app.route('/logout')
 def logout():
     session.pop('user_name')
+    session.clear
     return redirect(url_for('index'))
 
 
