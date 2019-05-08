@@ -66,6 +66,7 @@ class Question(db.Model):
     questionContent = db.Column('questionContent', db.String(2000), nullable=False)
     questionTime = db.Column('questionTime', db.DateTime, default=datetime.now())
     questionView = db.Column('questionView', db.Integer, default=0)
+    # questionLike = db.Column('questionLike', db.Integer, default=0)
     __tablename__ = 't_question'
 
     def __repr__(self):
@@ -93,3 +94,22 @@ class Answer(db.Model):
         self.userId = user_id
         self.answerContent = answer_content
         self.answerTime = answer_time
+
+
+class Like(db.Model):
+    likeId = db.Column("likeId", db.Integer, primary_key=True, autoincrement=True)
+    userId = db.Column(db.Integer, db.ForeignKey("t_user.userId"))
+    user = db.relationship("User", backref=db.backref("likes"))
+    questionId = db.Column(db.Integer, db.ForeignKey("t_question.questionId"))
+    question = db.relationship("Question", backref=db.backref("likes"))
+    likeTime = db.Column("likeTime", db.DateTime, default=datetime.now())
+    # likeType = db.Column("likeType", db.Integer, default=0)  # 0 question 1 answer
+    __tablename__ = "t_like"
+
+    def __repr__(self):
+        return '<Lke %r>' % self.likeId
+
+    def __init__(self, user_id=None, questin_id=None, like_time=None):
+        self.userId = user_id
+        self.questionId = questin_id
+        self.likeTime = like_time

@@ -1,8 +1,8 @@
 # coding: utf-8
-from flask import Flask, render_template, request, redirect, url_for, session, g, flash
+from flask import Flask, render_template, request, redirect, url_for, session, g, flash, jsonify
 import config
 from db import db
-from models import User, Question, Answer
+from models import User, Question, Answer, Like
 from decorators import login_required
 from flask_bootstrap import Bootstrap
 from forms import LoginForm, RegisterForm, QuestionForm
@@ -30,10 +30,11 @@ def index():
     # pagination = Pagination(page=page, total=total, record_name='questions')
     pagination = Question.query.order_by(Question.questionTime.desc()).paginate(page, per_page=5, error_out=False)
     questions = pagination.items
-
+    # likes=Like.query.filter_by(questionId=question_id).all()
     context = {
         'pagination': pagination,
         'questions': questions  # Question.query.order_by(Question.questionTime.desc()).slice(start, end).all()
+        # 'likes':likes
     }
     return render_template('index.html', **context)
 
@@ -163,8 +164,20 @@ def question():
 
 @app.route('/detail/<question_id>')
 def detail(question_id):
+    if session.get('user_name'):
+        current_user = User.query.filter(User.userName == session['user_name']).first()
+        user_id = current_user.userId
+    else:
+        user_id = 0
+    my_like = Like.query.filter(Like.userId == user_id, Like.questionId == question_id).first()
+    if my_like:
+        isQuestionLike = 'color:red;'
+    else:
+        isQuestionLike = 'color:black;'
     context = {
-        'answers': Answer.query.filter_by(questionId=question_id).order_by(Answer.answerTime.desc()).all()
+        'answers': Answer.query.filter_by(questionId=question_id).order_by(Answer.answerTime.desc()).all(),
+        'questionLike': Like.query.filter_by(questionId=question_id).all(),
+        'isQuestionLike': isQuestionLike
     }
     my_question = Question.query.filter(Question.questionId == question_id).first()
     my_question.questionView = my_question.questionView + 1
@@ -206,6 +219,38 @@ def profile():
         'answers': Answer.query.filter_by(userId=user.userId).order_by(Answer.answerTime.desc()).all()
     }
     return render_template('profile.html', **context)
+
+
+@app.route('/like', methods=['GET', 'POST'])
+def like():
+    if request.method == 'GET':
+        if session.get('user_name'):
+            current_user = User.query.filter(User.userName == session['user_name']).first()
+            user_id = current_user.userId
+        else:
+            user_id = 0
+        question_id = request.args.get('questionId')
+        accumulate = int(request.args.get('accumulation'))
+        if user_id == 0:
+            accumulate = 0
+            status = 0
+            errmsg = "请先登录再点赞！"
+        else:
+            if accumulate == 1:
+                my_like = Like(user_id=user_id, questin_id=question_id, like_time=datetime.now())
+                db.session.add(my_like)
+                db.session.commit()
+                accumulate = 1
+                status = 1
+                errmsg = "点赞成功！"
+            else:
+                my_like = Like.query.filter(Like.userId == user_id, Like.questionId == question_id).first()
+                db.session.delete(my_like)
+                db.session.commit()
+                accumulate = -1
+                status = 1
+                errmsg = "取消点赞成功！"
+        return jsonify({'status': status, 'errmsg': errmsg, 'accumulate': accumulate})
 
 
 @app.errorhandler(404)

@@ -12,19 +12,25 @@
             </div>
             <div class="pull-center">
                 <div class="row">
-                    <div class="col-md-3"><span class="glyphicon glyphicon-user"></span> {{ question.user.userNickname }}
+                    <div class="col-md-3"><span
+                            class="glyphicon glyphicon-user"></span> {{ question.user.userNickname }}
                     </div>
                     <div class="col-md-3"><span class="glyphicon glyphicon-time"
                                                 aria-hidden="true"></span> {{ question.questionTime }}</div>
                     <div class="col-md-3"><span class="glyphicon glyphicon-eye-open"
                                                 aria-hidden="true"></span> {{ question.questionView }}</div>
                     <div class="col-md-3">
-                        <a href="#" style="color:red" title="喜欢"><span class="glyphicon glyphicon-heart"
-                                                                       aria-hidden="true"></span> 999+</a>
+                        {#                        <a href="" style="color:red" title="喜欢" id="likeAjax">#}
+                        <div id="likeAjax" style="{{ isQuestionLike }}">
+                            <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                            <span id="likeAjaxCount"> {{ questionLike|length }}</span>
+                        </div>
+                        {#                        </a>#}
                     </div>
                 </div>
             </div>
         </div>
+        {##}
         <div class="panel-footer">{{ question.questionContent }}</div>
     </div>
     <hr>
@@ -37,7 +43,8 @@
             <textarea class="form-control" rows="3" name="answer_content" id="answer_content"></textarea>
         </div>
         <div class="form-group">
-            <input type="hidden" class="form-control" name="question_id" id="question_id" value="{{ question.questionId }}">
+            <input type="hidden" class="form-control" name="question_id" id="question_id"
+                   value="{{ question.questionId }}">
         </div>
         <button type="submit" class="btn btn-default">发表回答</button>
     </form>
@@ -65,4 +72,40 @@
             {{ macros.pagination_widget(pagination, '.index') }}
         </nav>
     {% endif %}
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script>
+        $(function () {
+            $("#likeAjax").click(function () {
+                {% if user %}
+                    current = this
+                    {#alert(current.style.cssText)#}
+                    if (current.style.cssText == 'color: red;') {
+                        accumulation = -1
+                        current.style.cssText = 'color:black;'
+                    } else {
+                        accumulation = 1
+                        current.style.cssText = 'color:red;'
+                    }
+
+                    params = {
+                        "questionId": {{ question.questionId }},
+                        {#"userId": userId,#}"accumulation": accumulation
+                    }
+                    $.getJSON("{{ url_for('like') }}", params, function (result) {
+                        console.info(result)
+                        if (result.status == '0') {
+                            alert(result.errmsg)
+                            return
+                        }
+                        $("#likeAjaxCount")[0].innerText = parseInt($("#likeAjaxCount")[0].innerText) + result.accumulate + ''
+                    });
+                {% else %}
+                    alert("请先登录")
+                {% endif %}
+            });
+
+        })
+    </script>
 {% endblock %}
