@@ -11,4 +11,3 @@ MAIL_PORT = 25
 # MAIL_USE_TLS = True
 MAIL_USERNAME = 'yaoxing@fsc.cntaiping.com'
 MAIL_PASSWORD = 'Abc12345'
-

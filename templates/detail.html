@@ -36,7 +36,7 @@
     <hr>
     <hr>
     {#{{ wtf.quick_form(form,action="/answer") }}#}
-    <form name="answerForm" method="post" action="{{ url_for('answer') }}"
+    <form name="answerForm" method="post" action="{{ url_for('main.answer') }}"
           onsubmit=" if(!answerForm.answer_content.value) {alert('not null');return false}">
         <div class="form-group">
             <label for="answer_content">添加回答</label>
@@ -69,7 +69,7 @@
     </table>
     {% if pagination %}
         <nav aria-label="Page navigation">
-            {{ macros.pagination_widget(pagination, '.index') }}
+            {{ macros.pagination_widget(pagination, 'main.index') }}
         </nav>
     {% endif %}
 {% endblock %}
@@ -93,7 +93,7 @@
                         "questionId": {{ question.questionId }},
                         {#"userId": userId,#}"accumulation": accumulation
                     }
-                    $.getJSON("{{ url_for('like') }}", params, function (result) {
+                    $.getJSON("{{ url_for('main.like') }}", params, function (result) {
                         console.info(result)
                         if (result.status == '0') {
                             alert(result.errmsg)

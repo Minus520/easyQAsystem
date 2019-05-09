@@ -12,7 +12,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="pull-left">
-                        <a href="{{ url_for('detail',question_id=question.questionId) }}"><span
+                        <a href="{{ url_for('main.detail',question_id=question.questionId) }}"><span
                                 class="glyphicon glyphicon-folder-open"></span> {{ question.questionTopic }}</a>
                     </div>
                     <div class="pull-right" id="content_info">
@@ -30,7 +30,7 @@
 
     {% if pagination %}
         <nav aria-label="Page navigation">
-            {{ macros.pagination_widget(pagination, '.index') }}
+            {{ macros.pagination_widget(pagination, 'main.index') }}
         </nav>
     {% endif %}
 {% endblock %}

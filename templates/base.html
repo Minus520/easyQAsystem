@@ -11,10 +11,10 @@
     <div class="navbar navbar-default" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="{{ url_for('index') }}"><span class="glyphicon glyphicon-home"
+                <a class="navbar-brand" href="{{ url_for('main.index') }}"><span class="glyphicon glyphicon-home"
                                                                             aria-hidden="true"></span> 首页</a>
                 {% if user and user.userConfirmed==1 %}
-                    <a class="navbar-brand" href="{{ url_for('question') }}">
+                    <a class="navbar-brand" href="{{ url_for('main.question') }}">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发布
                     </a>
                 {% endif %}
@@ -22,15 +22,15 @@
             <div class="navbar-collapse collapse pull-right">
                 <ul class="nav navbar-nav">
                     {% if user %}
-                        <li><a href="{{ url_for('profile') }}"><span class="glyphicon glyphicon-education"
+                        <li><a href="{{ url_for('main.profile') }}"><span class="glyphicon glyphicon-education"
                                                                      aria-hidden="true"></span> {{ user.userNickname }}的个人中心</a>
                         </li>
-                        <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-off"
+                        <li><a href="{{ url_for('center.logout') }}"><span class="glyphicon glyphicon-off"
                                                                     aria-hidden="true"></span> 注销</a></li>
                     {% else %}
-                        <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-dashboard"
+                        <li><a href="{{ url_for('center.login') }}"><span class="glyphicon glyphicon-dashboard"
                                                                    aria-hidden="true"></span> 登录</a></li>
-                        <li><a href="{{ url_for('register') }}"><span class="glyphicon glyphicon-registration-mark"
+                        <li><a href="{{ url_for('center.register') }}"><span class="glyphicon glyphicon-registration-mark"
                                                                       aria-hidden="true"></span> 注册</a></li>
                     {% endif %}
                 </ul>

@@ -12,6 +12,7 @@ class User(db.Model):
     userEmail = db.Column('userEmail', db.String(30), nullable=True)
     userNickname = db.Column('userNickname', db.String(20), nullable=True)
     registerTime = db.Column('registerTime', db.DateTime, default=datetime.now())
+    lastLoginTime = db.Column('lastLoginTime', db.DateTime, default=datetime.now())
     userBirth = db.Column('userBirth', db.String(20))
     userConfirmed = db.Column('userConfirmed', db.Boolean, default=False)
     __tablename__ = 't_user'
@@ -48,12 +49,13 @@ class User(db.Model):
         return '<User %r>' % self.userId
 
     def __init__(self, user_name=None, user_password=None, user_email=None, user_nickname=None, register_time=None,
-                 user_birth=None):
+                 lastlogin_time=None,user_birth=None):
         self.userName = user_name
         self.password = user_password
         self.userEmail = user_email
         self.userNickname = user_nickname
         self.registerTime = register_time
+        self.lastLoginTime = lastlogin_time
         self.userBirth = user_birth
 
 
@@ -107,7 +109,7 @@ class Like(db.Model):
     __tablename__ = "t_like"
 
     def __repr__(self):
-        return '<Lke %r>' % self.likeId
+        return '<Like %r>' % self.likeId
 
     def __init__(self, user_id=None, questin_id=None, like_time=None):
         self.userId = user_id

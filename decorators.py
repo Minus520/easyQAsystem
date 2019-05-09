@@ -9,6 +9,6 @@ def login_required(func):
         if session.get('user_name'):
             return func(*args, **kwargs)
         else:
-            return redirect(url_for('login'))
+            return redirect(url_for('center.login'))
 
     return wrapper
