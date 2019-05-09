@@ -4,7 +4,7 @@ my first flask project
 
 ## ********************* 更新历史 ********************* 
 2019年4月项目基本功能上线（单例代码）；
-2019年5月9日程序加入蓝图。原来单例源代码见easyQAsystem\resource 目录；
+2019年5月9日程序加入蓝图。原来单例源代码见/easyQAsystem/resource(easyQAsystem/resource) 目录；
 
 ## 注：
 
@@ -12,12 +12,16 @@ my first flask project
 下增加一个文件：sitecustomize.py
 
 内容如下：
+
 import sys
 sys.setdefaultencoding('utf-8')
+
 否则会报：UnicodeDecodeError: 'ascii' codec can't decode byte 0xe9 in position 0: ordinal not in range(128)错误。
 
 2、获取客户端地址：
+
 需在nginx 配置文件中配置：proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+
 然后在本程序中center.py中添加：g.user_ip = request.headers['X-Forwarded-For']
 
 ## ********************* How to use *********************
@@ -28,12 +32,12 @@ git clone https://github.com/commitsession/easyQAsystem.git
 ## 2 安装依赖
 **  automatic **
 
-pip install -r requiremets.text
+pip install -r requiremets.text(easyQAsystem/requiremets.text)
 
 ** OR manual **
 ###依赖包下载网址
 https://pypi.org/project
-(我已经下载好放在/easyQAsystem/requirementlib目录下了)
+(我已经下载好放在/easyQAsystem/requirementlib(easyQAsystem/requirementlib)目录下了)
 linux系统安装：
 python setup.py build
 python setup.py install
