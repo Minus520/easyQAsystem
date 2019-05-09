@@ -4,7 +4,7 @@ my first flask project
 
 ## ********************* 更新历史 ********************* 
 2019年4月项目基本功能上线（单例代码）；
-2019年5月9日程序加入蓝图。原来单例源代码见/easyQAsystem/[resource](easyQAsystem/resource) 目录；
+2019年5月9日程序加入蓝图。原来单例源代码见/easyQAsystem/[resource](resource) 目录；
 
 ## 注：
 
@@ -32,14 +32,14 @@ git clone https://github.com/commitsession/easyQAsystem.git
 ## 2 安装依赖
 **  automatic **
 
-pip install -r [requiremets.text](easyQAsystem/requiremets.text)
+pip install -r [requiremets.text](requiremets.text)
 
 ** or manual **
 ###依赖包下载网址
 
 https://pypi.org/project
 
-(我已经下载好放在/easyQAsystem/[requirementlib](easyQAsystem/requirementlib)目录下了)
+(我已经下载好放在/easyQAsystem/[requirementlib](requirementlib)目录下了)
 
 linux系统安装：
 
