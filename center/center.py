@@ -11,6 +11,7 @@ from decorators import login_required
 from app import mail
 import manage  # manage.app
 from . import my_center
+from config import Config
 
 
 @my_center.route('/login', methods=['GET', 'POST'])
@@ -67,7 +68,7 @@ def register():
             user = User(user_name, user_password, user_email, user_nickname, register_time, user_birth)
             db.session.add(user)
             db.session.commit()
-            token = user.generate_confirmation_token(secret_key=manage.app.config['SECRET_KEY'])
+            token = user.generate_confirmation_token(secret_key=Config.SECRET_KEY)
             send_email(user_email, 'easyQAsystem User Register Confirm', 'notifymail', user=user, token=token)
             flash(u'账号确认邮件已发送到您的注册邮箱，请及时确认，否则无法发布新问题！！！')
             return redirect(url_for('center.login'))
