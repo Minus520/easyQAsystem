@@ -3,4 +3,4 @@ from flask import Blueprint
 
 my_center = Blueprint('center', __name__)
 
-from center import center
+from . import center

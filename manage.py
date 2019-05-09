@@ -7,7 +7,7 @@ from models import User, Question, Answer
 
 import app
 
-app = app.create_app()
+app = app.create_app('development' or 'default')
 manager = Manager(app)
 migrate = Migrate(app, db)
 

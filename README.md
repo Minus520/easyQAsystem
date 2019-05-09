@@ -35,9 +35,8 @@ git clone https://github.com/commitsession/easyQAsystem.git
 pip install -r [requiremets.text](requiremets.text)
 
 ** or manual **
-###依赖包下载网址
 
-https://pypi.org/project
+依赖包下载网址:https://pypi.org/project
 
 (我已经下载好放在/easyQAsystem/[requirementlib](requirementlib)目录下了)
 
@@ -56,6 +55,6 @@ python manage.py db migrate
 ## 5 映射数据库
 python manage.py db upgrade
 
-## 6 启动项目：
+## 6 启动项目
 python manage.py runserver
 

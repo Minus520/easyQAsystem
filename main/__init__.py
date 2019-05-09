@@ -3,4 +3,4 @@ from flask import Blueprint
 
 my_main = Blueprint('main', __name__)
 
-from main import main
+from . import main
