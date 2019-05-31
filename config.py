@@ -6,11 +6,11 @@ import os
 # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:xroot@10.1.14.230:3306/easyQAsystem?charset=utf8'
 # SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 # SQLALCHEMY_TRACK_MODIFICATIONS = True
-# MAIL_SERVER = 'smtp.cntaiping.com'
+# MAIL_SERVER = 'smtp.*****.com'
 # MAIL_PORT = 25
 # # MAIL_USE_TLS = True
-# MAIL_USERNAME = 'yaoxing@fsc.cntaiping.com'
-# MAIL_PASSWORD = 'Abc12345'
+# MAIL_USERNAME = '******@******.com'
+# MAIL_PASSWORD = '******'
 #
 
 
@@ -20,11 +20,11 @@ class Config:
     #SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:xroot@10.1.14.230:3306/easyQAsystem?charset=utf8'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    MAIL_SERVER = 'smtp.cntaiping.com'
+    MAIL_SERVER = 'smtp.*&****.com'
     MAIL_PORT = 25
     # MAIL_USE_TLS = True
-    MAIL_USERNAME = 'yaoxing@fsc.cntaiping.com'
-    MAIL_PASSWORD = 'Abc12345'
+    MAIL_USERNAME = '******@******.com'
+    MAIL_PASSWORD = '******'
 
     @staticmethod
     def init_app(app):
